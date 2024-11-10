@@ -1,19 +1,17 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'card.dart';
 import 'gradients.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'add_card.dart';
 
-class Ui extends StatefulWidget {
-  const Ui({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<Ui> createState() => _UiState();
+  State<Home> createState() => _HomeState();
 }
 
-class _UiState extends State<Ui> {
+class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
@@ -58,7 +56,7 @@ class _UiState extends State<Ui> {
                     child: Card(
                       elevation: 4,
                       color: Colors.black,
-                      shadowColor: Colors.white12,
+                      // shadowColor: Colors.white12,
                       clipBehavior: Clip.antiAlias,
                       margin: const EdgeInsets.all(6),
                       child: Container(

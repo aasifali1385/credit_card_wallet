@@ -5,19 +5,19 @@ Map<dynamic, LinearGradient> getGradients() {
     0: const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [Colors.black54, Colors.black]),
+        colors: [Color(0xff4A4A4A), Colors.black]),
 
-    1:  LinearGradient(
+    1: const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [Colors.black, Colors.black26]),
+        colors: [Colors.black, Color(0xff4A4A4A)]),
 
     2: const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [Colors.white70, Colors.black]),
 
-    3:  LinearGradient(
+    3: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [Colors.orange, Colors.orange[300]!]),
@@ -41,7 +41,6 @@ Map<dynamic, LinearGradient> getGradients() {
         begin: Alignment.centerLeft,
         end: Alignment.centerRight,
         colors: [Color(0xFFC62824), Color(0xFF700F0A), Color(0xFF000000)]),
-
 
     "AxisFlipkart": const LinearGradient(
         begin: Alignment.topLeft,

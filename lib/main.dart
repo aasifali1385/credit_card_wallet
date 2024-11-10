@@ -15,8 +15,10 @@ void main() async {
   runApp(MaterialApp(
     title: 'Credit Card Wallet',
     debugShowCheckedModeBanner: false,
+
     theme: ThemeData(
         fontFamily: 'card',
+
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.deepPurple[50]),
@@ -52,13 +54,13 @@ class _MyAppState extends State<MyApp> {
     final List<BiometricType> availableBiometrics =
         await auth.getAvailableBiometrics();
 
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const Logo()));
-    return;
+    // Navigator.pushReplacement(
+    //     context, MaterialPageRoute(builder: (context) => const Logo()));
+    // return;
 
     if (availableBiometrics.isEmpty) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const Ui()));
+          context, MaterialPageRoute(builder: (context) => const Home()));
     } else {
       bool authenticated = false;
       try {
@@ -74,7 +76,7 @@ class _MyAppState extends State<MyApp> {
 
       if (authenticated) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const Ui()));
+            context, MaterialPageRoute(builder: (context) => const Home()));
       }
       ////////////////////////////////////////
     }

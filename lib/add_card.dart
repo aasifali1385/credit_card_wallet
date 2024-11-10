@@ -147,6 +147,7 @@ class _AddCardState extends State<AddCard> {
                 tag: 'add',
                 child: Card(
                   elevation: 4,
+                  color: Colors.black,
                   // shadowColor: Colors.white12,
                   margin: const EdgeInsets.all(0),
                   clipBehavior: Clip.antiAlias,
