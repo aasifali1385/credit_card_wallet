@@ -8,22 +8,21 @@ import 'logo.dart';
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-        // statusBarColor: MyColor.primary,
-        ),
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
   );
 
   runApp(MaterialApp(
     title: 'Credit Card Wallet',
     debugShowCheckedModeBanner: false,
-
     theme: ThemeData(
-        fontFamily: 'card',
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-        useMaterial3: true,
-        scaffoldBackgroundColor: Colors.deepPurple[50]),
+      fontFamily: 'card',
+      useMaterial3: true,
+      // colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+      // scaffoldBackgroundColor: Colors.blue[50],
+    ),
     home: const MyApp(),
-    // home: FlipCreditCard(),
   ));
 }
 
@@ -54,8 +53,7 @@ class _MyAppState extends State<MyApp> {
     final List<BiometricType> availableBiometrics =
         await auth.getAvailableBiometrics();
 
-    // Navigator.pushReplacement(
-    //     context, MaterialPageRoute(builder: (context) => const Logo()));
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Logo()));
     // return;
 
     if (availableBiometrics.isEmpty) {
@@ -85,17 +83,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color(0xff6b8e7e),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              // Color(0xff0f0f0f),
-              // Color(0xff131314),
-              Color(0xff314c58),
-              Color(0xff6b8e7e),
+              // Color(0xfff55d80),
+              // Color(0xff6d7ff4),
+              Colors.blue,
+              Colors.white,
             ],
           ),
         ),
@@ -103,23 +100,33 @@ class _MyAppState extends State<MyApp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const Icon(Icons.lock_rounded, size: 50),
+            const SizedBox(height: 60),
+            const Icon(
+              Icons.lock_rounded,
+              size: 50,
+              // color: Colors.white,
+            ),
             const SizedBox(height: 10),
             const Text(
               'AUTHENTICATION REQUIRED',
-              style: TextStyle(fontSize: 20, fontFamily: "card"),
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: "card",
+                // color: Colors.white,
+              ),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'AUTHENTICATION REQUIRED TO ACCESS CARDS',
+            Text(
+              'Your data is securely stored and protected. You can access all your information without needing an internet connection.\nRest assured, your privacy is our priority, and all data remains safe and offline.'
+                  .toUpperCase(),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, fontFamily: 'card'),
             ),
-            const SizedBox(height: 450),
+            const Expanded(child: SizedBox()),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 40),
-                  backgroundColor: Colors.black),
+                minimumSize: const Size(double.infinity, 40),
+                backgroundColor: Colors.black,
+              ),
               onPressed: _authenticate,
               child: const Text(
                 'UNLOCK',

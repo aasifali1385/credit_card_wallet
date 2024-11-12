@@ -83,15 +83,12 @@ class _CreditCardState extends State<CreditCard>
                 ..rotateY(angle),
               alignment: Alignment.center,
               child: Card(
-                  clipBehavior: Clip.antiAlias,
-                  color: Colors.black,
-                  shadowColor: Colors.white12,
                   elevation: 4,
-
+                  color: Colors.black,
+                  clipBehavior: Clip.antiAlias,
                   margin: const EdgeInsets.all(6),
                   child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.black,
                           gradient: getGradients()[widget.card['style']]),
                       child: AspectRatio(
                         aspectRatio: 3.375 / 2.125,
@@ -218,7 +215,7 @@ class _CreditCardState extends State<CreditCard>
 
 Widget frontContent(card, screenWidth, alert) {
   return Padding(
-    padding: EdgeInsets.fromLTRB(20, alert != "" ? 10 : 20, 20, 20),
+    padding: EdgeInsets.fromLTRB(20, alert != "" ? 6 : 14, 20, 16),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.end,
@@ -241,105 +238,132 @@ Widget frontContent(card, screenWidth, alert) {
             ),
           ),
         Expanded(
-          child: Row(
-            children: [
-              Expanded(
-                child: card['bank'].startsWith('assets')
-                    ? Image.asset(card['bank'])
-                    : Text(
-                        card['bank'],
-                        style: TextStyle(
-                            color: Colors.white, fontSize: screenWidth * 0.045),
+            child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: card['bank'].startsWith('assets')
+                        ? Image.asset(card['bank'])
+                        : Text(
+                            card['bank'],
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: screenWidth * 0.045),
+                          ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      card['type'],
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                          color: Colors.white, fontSize: screenWidth * 0.045),
+                    ),
+                  ),
+                  const SizedBox(width: 8)
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: Row(
+                children: [
+                  Image.asset("assets/chip.png"),
+                  const Expanded(child: SizedBox()),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Image.asset("assets/nfc.png")),
+                  const SizedBox(width: 6)
+                ],
+              ),
+            ),
+            const SizedBox(height: 12)
+          ],
+        )),
+        Expanded(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Text(
+                card['number'],
+                style: TextStyle(
+                    fontSize: screenWidth * 0.047,
+                    // fontSize: screenWidth * 0.042,
+                    fontFamily: 'card',
+                    color: Colors.white),
+              ),
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  Text(
+                    'VALID\nFROM',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      height: 1.1,
+                      fontSize: screenWidth * 0.022,
+                      fontFamily: 'card',
+                      // height: 1,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      card['from'],
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.037,
                       ),
-              ),
-              Expanded(
-                child: Text(
-                  card['type'],
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                      color: Colors.white, fontSize: screenWidth * 0.045),
-                ),
-              ),
-              const SizedBox(width: 10)
-            ],
-          ),
-        ),
-        const SizedBox(height: 50),
-        Expanded(
-          child: Text(
-            card['number'],
-            style: TextStyle(
-                // fontSize: screenWidth * 0.047,
-                fontSize: screenWidth * 0.042,
-                fontFamily: 'card',
-                color: Colors.white),
-          ),
-        ),
-        Expanded(
-          child: Row(
-            children: [
-              Text(
-                'VALID\nFROM',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  height: 1.1,
-                  fontSize: screenWidth * 0.022,
-                  fontFamily: 'card',
-                  // height: 1,
-                ),
-              ),
-              const SizedBox(width: 6),
-              SizedBox(
-                width: 100,
-                child: Text(
-                  card['from'],
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: screenWidth * 0.037,
+                    ),
                   ),
-                ),
-              ),
-              Text(
-                'VALID\nTHRU',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: screenWidth * 0.022,
-                    height: 1.1),
-              ),
-              const SizedBox(width: 6),
-              SizedBox(
-                width: 100,
-                child: Text(
-                  card['thru'],
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: screenWidth * 0.037,
+                  Text(
+                    'VALID\nTHRU',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.022,
+                        height: 1.1),
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  card['name'],
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: screenWidth * 0.045,
+                  const SizedBox(width: 6),
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      card['thru'],
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.037,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-              Expanded(child: Image.asset(card['network']))
-            ],
-          ),
-        ),
+            ),
+            const SizedBox(height: 2),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    card['name'],
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.045,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: Image.asset(card['network']),
+                  )
+                ],
+              ),
+            ),
+          ],
+        )),
       ],
     ),
   );

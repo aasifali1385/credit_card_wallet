@@ -30,7 +30,7 @@ class _AddCardState extends State<AddCard> {
   bool isValid = false;
 
   var gradients = getGradients();
-  dynamic selected = 0;
+  dynamic selected = 1;
 
   void _checkValid() {
     setState(() {
@@ -61,7 +61,7 @@ class _AddCardState extends State<AddCard> {
     });
 
     setState(() {
-      title = "CARD ADDED";
+      title = "ADDED";
     });
 
     Timer(const Duration(seconds: 1), () {
@@ -95,19 +95,9 @@ class _AddCardState extends State<AddCard> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Container(
+      backgroundColor: Colors.white,
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-              // Color(0xff0f0f0f),
-              // Color(0xff131314),
-
-              Color(0xff314c58),
-              Color(0xff6b8e7e),
-            ])),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -119,19 +109,21 @@ class _AddCardState extends State<AddCard> {
                     },
                     icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
-                      color: Colors.white,
+                      // color: Colors.white,
                     )),
                 Expanded(
                     child: Text(title,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                            color: Colors.white, fontSize: 20))),
+                          // color: Colors.white,
+                          fontSize: 20,
+                        ))),
                 title == "ADD CARD"
                     ? IconButton(
                         onPressed: isValid ? _addCard : null,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.done_rounded,
-                          color: isValid ? Colors.white : Colors.white38,
+                          // color: isValid ? Colors.white : Colors.white38,
                         ))
                     : Container(
                         margin: const EdgeInsets.symmetric(horizontal: 12),
@@ -139,7 +131,7 @@ class _AddCardState extends State<AddCard> {
                         height: 20,
                         child: const CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: Colors.white,
+                          // color: Colors.white,
                         ))
               ]),
               const SizedBox(height: 8),
@@ -148,15 +140,10 @@ class _AddCardState extends State<AddCard> {
                 child: Card(
                   elevation: 4,
                   color: Colors.black,
-                  // shadowColor: Colors.white12,
                   margin: const EdgeInsets.all(0),
                   clipBehavior: Clip.antiAlias,
-                  // color: Colors.black,
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      gradient: gradients[selected],
-                    ),
+                    decoration: BoxDecoration(gradient: gradients[selected]),
                     child: AspectRatio(
                       aspectRatio: 3.375 / 2.125,
                       child: Padding(
@@ -280,6 +267,7 @@ class _AddCardState extends State<AddCard> {
                                         _checkValid();
                                       },
                                       keyboardType: TextInputType.number,
+                                      textInputAction: TextInputAction.next,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: screenWidth * 0.037,
@@ -318,6 +306,7 @@ class _AddCardState extends State<AddCard> {
                                         _checkValid();
                                       },
                                       keyboardType: TextInputType.number,
+                                      textInputAction: TextInputAction.next,
                                       maxLength: 5,
                                       buildCounter: (context,
                                           {required int currentLength,
@@ -444,7 +433,9 @@ class _AddCardState extends State<AddCard> {
                 height: 40,
                 decoration: BoxDecoration(
                   // gradient: gradients[selected],
-                  border: Border.all(color: Colors.white, width: 0.5),
+                  border: Border.all(
+                      // color: Colors.white,
+                      width: 0.5),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -454,13 +445,62 @@ class _AddCardState extends State<AddCard> {
                   ],
                 ),
               ),
-              const SizedBox(height: 12),
               Expanded(child: chooseColors()),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget chooseColors() {
+    return GridView.builder(
+        shrinkWrap: true,
+        padding: const EdgeInsets.only(top: 12, bottom: 30),
+        itemCount: gradients.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 5,
+          // mainAxisSpacing: 8.0,
+          // crossAxisSpacing: 8.0,
+          childAspectRatio: 3.375 / 2.125,
+        ),
+        itemBuilder: (context, index) {
+          return Card(
+            color: Colors.black,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+                side: selected == gradients.keys.elementAt(index)
+                    ? const BorderSide(color: Colors.white)
+                    : BorderSide.none
+
+                // border: selected == gradients.keys.elementAt(index)
+                // ? Border.all(color: Colors.white)
+                // : null,
+                ),
+            elevation: 4,
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: () {
+                selected = gradients.keys.elementAt(index);
+                _checkValid();
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                decoration: BoxDecoration(
+                  // borderRadius: BorderRadius.circular(6),
+                  gradient: gradients.values.elementAt(index),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  gradients.keys.elementAt(index).toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: Colors.white, fontSize: 10, inherit: false),
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   Widget switchButton(text, active) {
@@ -485,39 +525,9 @@ class _AddCardState extends State<AddCard> {
             ),
             child: Text(
               text,
-              style: TextStyle(color: active ? Colors.white : Colors.white),
+              style: TextStyle(color: active ? Colors.white : Colors.black),
             )),
       ),
     );
-  }
-
-  Widget chooseColors() {
-    return GridView.builder(
-        shrinkWrap: true,
-        itemCount: gradients.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 6,
-          mainAxisSpacing: 8.0,
-          crossAxisSpacing: 8.0,
-          childAspectRatio: 3.375 / 2.125,
-        ),
-        itemBuilder: (context, index) {
-          return InkWell(
-            borderRadius: BorderRadius.circular(6),
-            onTap: () {
-              selected = gradients.keys.elementAt(index);
-              _checkValid();
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                gradient: gradients.values.elementAt(index),
-                border: selected == gradients.keys.elementAt(index)
-                    ? Border.all(color: Colors.white)
-                    : null,
-              ),
-            ),
-          );
-        });
   }
 }

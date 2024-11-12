@@ -13,7 +13,7 @@ class _LogoState extends State<Logo> {
   final card = {
     "bank": 'assets/icici_bank.png',
     "network": 'assets/visa.png',
-    "type": 'CORAL',
+    "type": 'AMAZON PAY',
     "number": "⛥⛥⛥⛥  ⛥⛥⛥⛥  ⛥⛥⛥⛥  ⛥⛥⛥⛥",
     "from": '⛥⛥/⛥⛥',
     "thru": '⛥⛥/⛥⛥',
@@ -29,15 +29,26 @@ class _LogoState extends State<Logo> {
 
     return Scaffold(
       body: Container(
-        color: Colors.white,
-        padding: EdgeInsets.only(right: 40),
+        // color: Colors.white,
+        padding: const EdgeInsets.only(right: 40),
         alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xfff55d80),
+              Color(0xff6d7ff4),
+            ],
+          ),
+        ),
         child: Stack(
           children: [
             Transform(
               alignment: Alignment.bottomRight,
               transform: Matrix4.identity()
-                ..translate(0.0, -113.0) // Move the card up to rotate around the bottom right corner
+                ..translate(0.0,
+                    -113.0) // Move the card up to rotate around the bottom right corner
                 ..rotateZ(8.2 * (3.1415 / 180)) // Rotate around the Z-axis
                 ..translate(16.0, 100.0),
               child: Card(
@@ -70,7 +81,8 @@ class _LogoState extends State<Logo> {
             Transform(
               alignment: Alignment.bottomRight,
               transform: Matrix4.identity()
-                ..translate(0.0, -105.0) // Move the card up to rotate around the bottom right corner
+                ..translate(0.0,
+                    -105.0) // Move the card up to rotate around the bottom right corner
                 ..rotateZ(4.2 * (3.1415 / 180)) // Rotate around the Z-axis
                 ..translate(8.0, 100.0),
               child: Card(
@@ -81,8 +93,7 @@ class _LogoState extends State<Logo> {
                 margin: const EdgeInsets.all(10),
                 child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.black,
-                        gradient: getGradients()[3]),
+                        color: Colors.black, gradient: getGradients()[3]),
                     child: AspectRatio(
                       aspectRatio: 3.375 / 2.125,
                       child: frontContent({
@@ -100,7 +111,6 @@ class _LogoState extends State<Logo> {
                     )),
               ),
             ),
-
             Card(
               clipBehavior: Clip.antiAlias,
               color: Colors.black,
@@ -116,7 +126,6 @@ class _LogoState extends State<Logo> {
                     child: frontContent(card, screenWidth, ""),
                   )),
             ),
-
           ],
         ),
       ),
