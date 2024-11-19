@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:share_plus/share_plus.dart';
 import 'add_card.dart';
 import 'gradients.dart';
 
@@ -204,6 +205,17 @@ class _CreditCardState extends State<CreditCard>
                       icon: const Icon(
                         Icons.edit_note_rounded,
                         color: Colors.white,
+                      )),
+                  ///////////// Share /////////////
+                  IconButton(
+                      style: IconButton.styleFrom(
+                          backgroundColor: const Color(0x33ffffff)),
+                      onPressed: () {
+                        shareCard(card);
+                      },
+                      icon: const Icon(
+                        Icons.share_rounded,
+                        color: Colors.white,
                       ))
                 ],
               ),
@@ -367,4 +379,42 @@ Widget frontContent(card, screenWidth, alert) {
       ],
     ),
   );
+}
+
+void shareCard(card) {
+  var str = '';
+  for (var v in card.entries) {
+    final value = v.value.toString();
+
+    if ((v.key == 'bank' || v.key == 'network') && value.startsWith('assets')) {
+      str += value.substring(7, value.length - 4);
+
+    } else if (v.key == 'number' ||
+        v.key == "from" ||
+        v.key == 'thru' ||
+        v.key == 'cvv') {
+      str += enc(value.replaceAll(' ', ''), card['cvv']);
+
+    } else if (v.key != 'paid') {
+      str += value;
+    }
+
+    str += '•';
+    ////////////////////
+  }
+  Share.share('https://virtualcardhold.web.app?c=${str.replaceAll(' ', '+').substring(0, str.length - 2)}');
+}
+
+String enc(String str, key) {
+  var keyIn = 0;
+  var out = '';
+
+  for (var n in str.characters) {
+    if (keyIn == 3) keyIn = 0;
+    final t = String.fromCharCode(
+        n.codeUnitAt(0) + int.parse(key.toString()[keyIn++]));
+    out += t;
+  }
+
+  return Uri.encodeComponent(out);
 }

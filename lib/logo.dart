@@ -11,10 +11,10 @@ class Logo extends StatefulWidget {
 
 class _LogoState extends State<Logo> {
   final card = {
-    "bank": 'assets/icici_bank.png',
+    "bank": 'assets/icici.png',
     "network": 'assets/visa.png',
     "type": 'AMAZON PAY',
-    "number": "⛥⛥⛥⛥  ⛥⛥⛥⛥  ⛥⛥⛥⛥  ⛥⛥⛥⛥",
+    "number": "0000  0000  0000  0000",
     "from": '⛥⛥/⛥⛥',
     "thru": '⛥⛥/⛥⛥',
     "name": '⛥⛥⛥⛥⛥⛥',
@@ -22,6 +22,7 @@ class _LogoState extends State<Logo> {
     "style": '',
     "paid": false
   };
+
 
   @override
   Widget build(BuildContext context) {

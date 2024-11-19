@@ -1,9 +1,10 @@
+import 'package:app_links/app_links.dart';
+import 'package:credit_card_wallet/view_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:local_auth/local_auth.dart';
 import 'home.dart';
-import 'logo.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
@@ -14,7 +15,7 @@ void main() async {
   );
 
   runApp(MaterialApp(
-    title: 'Credit Card Wallet',
+    title: 'Virtual Card Holder',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       fontFamily: 'card',
@@ -34,6 +35,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // static const platform = MethodChannel('henry-harvin-416a3.web.app/deepLink');
+
   @override
   void initState() {
     super.initState();
@@ -41,7 +44,20 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    _authenticate();
+    _initDeepLink();
+  }
+
+  var uri;
+
+  Future<void> _initDeepLink() async {
+    final appLinks = AppLinks();
+    uri = await appLinks.getLatestLink();
+
+    if (uri == null) {
+      _authenticate();
+    } else {
+      setState(() {});
+    }
   }
 
   final LocalAuthentication auth = LocalAuthentication();
@@ -52,9 +68,6 @@ class _MyAppState extends State<MyApp> {
 
     final List<BiometricType> availableBiometrics =
         await auth.getAvailableBiometrics();
-
-    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Logo()));
-    // return;
 
     if (availableBiometrics.isEmpty) {
       Navigator.pushReplacement(
@@ -96,41 +109,55 @@ class _MyAppState extends State<MyApp> {
             ],
           ),
         ),
-        padding: const EdgeInsets.all(22),
+        // padding: const EdgeInsets.all(22),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const SizedBox(height: 60),
-            const Icon(
-              Icons.lock_rounded,
-              size: 50,
-              // color: Colors.white,
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'AUTHENTICATION REQUIRED',
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: "card",
-                // color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Your data is securely stored and protected. You can access all your information without needing an internet connection.\nRest assured, your privacy is our priority, and all data remains safe and offline.'
-                  .toUpperCase(),
-              textAlign: TextAlign.center,
-            ),
+            uri == null
+                ? Column(
+                    children: [
+                      const Icon(
+                        Icons.lock_rounded,
+                        size: 50,
+                        // color: Colors.white,
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'AUTHENTICATION REQUIRED',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "card",
+                          // color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          'Your data is securely stored and protected. You can access all your information without needing an internet connection.\nRest assured, your privacy is our priority, and all data remains safe and offline.'
+                              .toUpperCase(),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  )
+                : ViewCard(card: uri.queryParameters['c'].toString()),
+
+            ////////////////////////
             const Expanded(child: SizedBox()),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 40),
-                backgroundColor: Colors.black,
-              ),
-              onPressed: _authenticate,
-              child: const Text(
-                'UNLOCK',
-                style: TextStyle(color: Colors.white, fontFamily: 'card'),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 40),
+                  backgroundColor: Colors.black,
+                ),
+                onPressed: _authenticate,
+                child: const Text(
+                  'VIEW MY CARDS',
+                  style: TextStyle(color: Colors.white, fontFamily: 'card'),
+                ),
               ),
             )
           ],

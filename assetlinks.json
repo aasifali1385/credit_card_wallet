@@ -1,0 +1,12 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.aa.credit.card.wallet",
+      "sha256_cert_fingerprints": ["A9:20:23:B2:46:A3:82:69:E0:63:8C:0F:2B:18:1D:D8:E7:9B:0B:EE:4D:6A:B2:2D:24:E5:DD:17:BE:04:80:D6", "A5:61:F2:30:B5:5E:EE:6D:16:4B:D0:D9:87:88:4E:21:7F:15:A7:57:AE:DC:0A:85:A1:D1:94:EB:81:59:7C:59"]
+    }
+  }
+]

@@ -4,23 +4,23 @@ import 'package:flutter/services.dart';
 Widget bankDialog(dialogType) {
   List<String> list = dialogType == 1
       ? [
-          "axis_bank.png",
-          "kotak_bank.png",
-          "icici_bank.png",
-          "sbi_card.png",
-          "hdfc_bank.png",
-          "yes_bank.png",
-          "bob_card.png",
-          "induslnd_bank.png",
-          "american_bank.png",
-          "jp_morgon.png"
+          "axis.png",
+          "kotak.png",
+          "icici.png",
+          "sbi.png",
+          "hdfc.png",
+          "yes.png",
+          "bob.png",
+          "indusind.png",
+          "amBank.png",
+          "jpMg.png"
         ]
       : [
           "visa.png",
-          "mastercard.png",
+          "master.png",
           "rupay.png",
-          "rupay_white.png",
-          "american_express.png",
+          "rupay2.png",
+          "amExp.png",
           "discover.png"
         ];
 
