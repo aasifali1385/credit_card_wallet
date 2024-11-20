@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:app_links/app_links.dart';
 import 'package:credit_card_wallet/view_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:share_plus/share_plus.dart';
 import 'home.dart';
+import 'logo.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
@@ -15,7 +19,7 @@ void main() async {
   );
 
   runApp(MaterialApp(
-    title: 'Virtual Card Holder',
+    title: 'Credit Card Wallet',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       fontFamily: 'card',
@@ -97,14 +101,14 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
               // Color(0xfff55d80),
               // Color(0xff6d7ff4),
-              Colors.blue,
+              uri == null ? Colors.blue : Colors.white,
               Colors.white,
             ],
           ),
@@ -142,7 +146,7 @@ class _MyAppState extends State<MyApp> {
                       ),
                     ],
                   )
-                : ViewCard(card: uri.queryParameters['c'].toString()),
+                : ViewCard(card: uri.queryParameters['c'].replaceAll('%E2%80%A2', '•')),
 
             ////////////////////////
             const Expanded(child: SizedBox()),

@@ -35,6 +35,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" android:host="virtualcardhold.web.app" />
                 <data android:scheme="https" />
+                <data android:scheme="card" />
             </intent-filter>
 
         </activity>

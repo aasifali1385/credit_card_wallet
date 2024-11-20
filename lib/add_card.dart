@@ -298,7 +298,7 @@ class _AddCardState extends State<AddCard> {
                                   ),
                                   const SizedBox(width: 6),
                                   SizedBox(
-                                    width: 100,
+                                    width: 110,
                                     child: TextField(
                                       controller: _thruControl,
                                       onChanged: (value) {

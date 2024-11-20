@@ -402,7 +402,7 @@ void shareCard(card) {
     str += '•';
     ////////////////////
   }
-  Share.share('https://virtualcardhold.web.app?c=${str.replaceAll(' ', '+').substring(0, str.length - 2)}');
+  Share.share('https://henry-harvin-416a3.web.app?c=${str.replaceAll(' ', '+').substring(0, str.length - 2)}');
 }
 
 String enc(String str, key) {

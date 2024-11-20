@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'gradients.dart';
 
 class ViewCard extends StatefulWidget {
-  final dynamic card;
+  final String card;
 
   const ViewCard({super.key, required this.card});
 
@@ -18,7 +18,7 @@ class _ViewCardState extends State<ViewCard> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    final da = widget.card.toString().split('•');
+    final da = widget.card.split('•');
     var card = {"style": da[8], "paid": false};
 
     final cvv = key.length == 3 ? dec(Uri.decodeComponent(da[7]), key) : 'cvv';
