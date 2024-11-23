@@ -19,7 +19,7 @@ void main() async {
   );
 
   runApp(MaterialApp(
-    title: 'Credit Card Wallet',
+    title: 'Virtual Card Holder',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       fontFamily: 'card',
@@ -27,7 +27,7 @@ void main() async {
       // colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
       // scaffoldBackgroundColor: Colors.blue[50],
     ),
-    home: const MyApp(),
+    home: const Home(),
   ));
 }
 
@@ -56,6 +56,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> _initDeepLink() async {
     final appLinks = AppLinks();
     uri = await appLinks.getLatestLink();
+
 
     if (uri == null) {
       _authenticate();
@@ -146,7 +147,7 @@ class _MyAppState extends State<MyApp> {
                       ),
                     ],
                   )
-                : ViewCard(card: uri.queryParameters['c'].replaceAll('%E2%80%A2', '•')),
+                : ViewCard(card: uri.queryParameters['c'].toString().replaceAll('%E2%80%A2', '•')),
 
             ////////////////////////
             const Expanded(child: SizedBox()),

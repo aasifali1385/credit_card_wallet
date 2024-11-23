@@ -22,8 +22,10 @@ class _AddCardState extends State<AddCard> {
   final _thruControl = TextEditingController();
   final _cvvControl = TextEditingController();
   final _nameControl = TextEditingController();
-  var bank = "⛥⛥⛥⛥⛥⛥⛥";
-  var network = "⛥⛥⛥⛥⛥";
+
+  // var bank = "⛥⛥⛥⛥⛥⛥⛥";
+  var bank = "BANK NAME";
+  var network = "NETWORK";
   var paid = false;
 
   var title = "ADD CARD";
@@ -34,8 +36,8 @@ class _AddCardState extends State<AddCard> {
 
   void _checkValid() {
     setState(() {
-      isValid = bank != "⛥⛥⛥⛥⛥⛥⛥" &&
-          network != "⛥⛥⛥⛥⛥" &&
+      isValid = bank != "BANK NAME" &&
+          network != "NETWORK" &&
           _typeControl.text.isNotEmpty &&
           _numberControl.text.length == 22 &&
           _fromControl.text.length == 5 &&
@@ -166,51 +168,59 @@ class _AddCardState extends State<AddCard> {
                                         },
                                         child: bank.startsWith('assets')
                                             ? Image.asset(bank)
-                                            : Text(
-                                                bank,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize:
-                                                        screenWidth * 0.045),
-                                              )),
+                                            : LayoutBuilder(
+                                                builder: (context, cons) {
+                                                return Text(
+                                                  bank,
+                                                  style: TextStyle(
+                                                      color: bank == 'BANK NAME'
+                                                          ? Colors.white38
+                                                          : Colors.white,
+                                                      fontSize:
+                                                          cons.maxWidth / 8),
+                                                );
+                                              })),
                                   ),
                                   const SizedBox(width: 40),
                                   Expanded(
-                                    child: TextField(
-                                      textAlign: TextAlign.end,
-                                      textCapitalization:
-                                          TextCapitalization.characters,
-                                      controller: _typeControl,
-                                      onChanged: (value) {
-                                        _checkValid();
-                                      },
-                                      inputFormatters: [
-                                        TextInputFormatter.withFunction(
-                                            (oldValue, newValue) {
-                                          return newValue.copyWith(
-                                              text:
-                                                  newValue.text.toUpperCase());
-                                        })
-                                      ],
-                                      keyboardType: TextInputType.text,
-                                      maxLength: 15,
-                                      buildCounter: (context,
-                                          {required int currentLength,
-                                          required bool isFocused,
-                                          int? maxLength}) {
-                                        return null;
-                                      },
-                                      decoration: const InputDecoration(
-                                          enabledBorder: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          hintStyle:
-                                              TextStyle(color: Colors.white),
-                                          hintText: '⛥⛥⛥⛥⛥⛥⛥'),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: screenWidth * 0.045,
-                                      ),
-                                    ),
+                                    child:
+                                        LayoutBuilder(builder: (context, cons) {
+                                      return TextField(
+                                        textAlign: TextAlign.end,
+                                        textCapitalization:
+                                            TextCapitalization.characters,
+                                        controller: _typeControl,
+                                        onChanged: (value) {
+                                          _checkValid();
+                                        },
+                                        inputFormatters: [
+                                          TextInputFormatter.withFunction(
+                                              (oldValue, newValue) {
+                                            return newValue.copyWith(
+                                                text: newValue.text
+                                                    .toUpperCase());
+                                          })
+                                        ],
+                                        keyboardType: TextInputType.text,
+                                        maxLength: 15,
+                                        buildCounter: (context,
+                                            {required int currentLength,
+                                            required bool isFocused,
+                                            int? maxLength}) {
+                                          return null;
+                                        },
+                                        decoration: const InputDecoration(
+                                            enabledBorder: InputBorder.none,
+                                            focusedBorder: InputBorder.none,
+                                            hintStyle: TextStyle(
+                                                color: Colors.white38),
+                                            hintText: 'CARD TYPE'),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: cons.maxWidth / 8,
+                                        ),
+                                      );
+                                    }),
                                   ),
                                   const SizedBox(width: 10)
                                 ],
@@ -218,141 +228,169 @@ class _AddCardState extends State<AddCard> {
                             ),
                             const SizedBox(height: 20),
                             Expanded(
-                              child: TextField(
-                                controller: _numberControl,
-                                onChanged: (value) {
-                                  formatNumber(value, _numberControl);
-                                  _checkValid();
-                                },
-                                keyboardType: TextInputType.number,
-                                style: TextStyle(
-                                    fontSize: screenWidth * 0.047,
-                                    fontFamily: 'card',
-                                    color: Colors.white),
-                                maxLength: 22,
-                                buildCounter: (context,
-                                    {required int currentLength,
-                                    required bool isFocused,
-                                    int? maxLength}) {
-                                  return null;
-                                },
-                                decoration: const InputDecoration(
-                                    enabledBorder: InputBorder.none,
-                                    hintStyle: TextStyle(color: Colors.white),
-                                    focusedBorder: InputBorder.none,
-                                    hintText: '⛥⛥⛥⛥ ⛥⛥⛥⛥ ⛥⛥⛥⛥ ⛥⛥⛥⛥'),
-                              ),
+                              child: LayoutBuilder(builder: (context, cons) {
+                                return TextField(
+                                  controller: _numberControl,
+                                  onChanged: (value) {
+                                    formatNumber(value, _numberControl);
+                                    _checkValid();
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  style: TextStyle(
+                                      fontSize: cons.maxWidth / 19,
+                                      fontFamily: 'card',
+                                      color: Colors.white),
+                                  maxLength: 22,
+                                  buildCounter: (context,
+                                      {required int currentLength,
+                                      required bool isFocused,
+                                      int? maxLength}) {
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                      enabledBorder: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                        color: Colors.white38,
+                                        fontSize: cons.maxWidth / 17,
+                                      ),
+                                      focusedBorder: InputBorder.none,
+                                      hintText: '0000 0000 0000 0000'),
+                                );
+                              }),
                             ),
                             const SizedBox(height: 4),
                             Expanded(
                               child: Row(
                                 children: [
-                                  Text(
-                                    'VALID\nFROM',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: screenWidth * 0.022,
-                                      fontFamily: 'card',
-                                      height: 1.1,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  SizedBox(
-                                    width: 100,
-                                    child: TextField(
-                                      controller: _fromControl,
-                                      onChanged: (value) {
-                                        formatDate(value, _fromControl);
-                                        _checkValid();
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      textInputAction: TextInputAction.next,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: screenWidth * 0.037,
+                                  Expanded(
+                                      child: Row(
+                                    children: [
+                                      Text(
+                                        'VALID\nFROM',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: screenWidth * 0.022,
+                                          fontFamily: 'card',
+                                          height: 1.1,
+                                        ),
                                       ),
-                                      maxLength: 5,
-                                      buildCounter: (context,
-                                          {required int currentLength,
-                                          required bool isFocused,
-                                          int? maxLength}) {
-                                        return null;
-                                      },
-                                      decoration: const InputDecoration(
-                                        enabledBorder: InputBorder.none,
-                                        focusedBorder: InputBorder.none,
-                                        hintStyle:
-                                            TextStyle(color: Colors.white),
-                                        hintText: '⛥⛥/⛥⛥',
+                                      const SizedBox(width: 6),
+                                      Expanded(
+                                        child: LayoutBuilder(
+                                            builder: (context, cons) {
+                                          return TextField(
+                                            controller: _fromControl,
+                                            onChanged: (value) {
+                                              formatDate(value, _fromControl);
+                                              _checkValid();
+                                            },
+                                            keyboardType: TextInputType.number,
+                                            textInputAction:
+                                                TextInputAction.next,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: cons.maxWidth / 5,
+                                            ),
+                                            maxLength: 5,
+                                            buildCounter: (context,
+                                                {required int currentLength,
+                                                required bool isFocused,
+                                                int? maxLength}) {
+                                              return null;
+                                            },
+                                            decoration: const InputDecoration(
+                                              enabledBorder: InputBorder.none,
+                                              focusedBorder: InputBorder.none,
+                                              hintStyle: TextStyle(
+                                                  color: Colors.white38),
+                                              hintText: '00/00',
+                                            ),
+                                          );
+                                        }),
                                       ),
-                                    ),
-                                  ),
-                                  Text(
-                                    'VALID\nTHRU',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: screenWidth * 0.022,
-                                        height: 1.1),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  SizedBox(
-                                    width: 110,
-                                    child: TextField(
-                                      controller: _thruControl,
-                                      onChanged: (value) {
-                                        formatDate(value, _thruControl);
-                                        _checkValid();
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      textInputAction: TextInputAction.next,
-                                      maxLength: 5,
-                                      buildCounter: (context,
-                                          {required int currentLength,
-                                          required bool isFocused,
-                                          int? maxLength}) {
-                                        return null;
-                                      },
-                                      decoration: const InputDecoration(
-                                          enabledBorder: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          hintStyle:
-                                              TextStyle(color: Colors.white),
-                                          hintText: '⛥⛥/⛥⛥'),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: screenWidth * 0.037,
+                                    ],
+                                  )),
+                                  Expanded(
+                                      child: Row(
+                                    children: [
+                                      Text(
+                                        'VALID\nTHRU',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: screenWidth * 0.022,
+                                            height: 1.1),
                                       ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 50,
-                                    child: TextField(
-                                      controller: _cvvControl,
-                                      onChanged: (value) {
-                                        _checkValid();
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      maxLength: 3,
-                                      buildCounter: (context,
-                                          {required int currentLength,
-                                          required bool isFocused,
-                                          int? maxLength}) {
-                                        return null;
-                                      },
-                                      decoration: const InputDecoration(
-                                          enabledBorder: InputBorder.none,
-                                          hintStyle:
-                                              TextStyle(color: Colors.white),
-                                          focusedBorder: InputBorder.none,
-                                          hintText: '⛥⛥⛥'),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: screenWidth * 0.037,
+                                      const SizedBox(width: 6),
+                                      Expanded(
+                                        child: LayoutBuilder(
+                                            builder: (context, cons) {
+                                          return TextField(
+                                            controller: _thruControl,
+                                            onChanged: (value) {
+                                              formatDate(value, _thruControl);
+                                              _checkValid();
+                                            },
+                                            keyboardType: TextInputType.number,
+                                            textInputAction:
+                                                TextInputAction.next,
+                                            maxLength: 5,
+                                            buildCounter: (context,
+                                                {required int currentLength,
+                                                required bool isFocused,
+                                                int? maxLength}) {
+                                              return null;
+                                            },
+                                            decoration: const InputDecoration(
+                                                enabledBorder: InputBorder.none,
+                                                focusedBorder: InputBorder.none,
+                                                hintStyle: TextStyle(
+                                                    color: Colors.white38),
+                                                hintText: '00/00'),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: cons.maxWidth / 5,
+                                            ),
+                                          );
+                                        }),
                                       ),
-                                    ),
+                                    ],
+                                  )),
+                                  Expanded(
+                                    child:
+                                        LayoutBuilder(builder: (context, cons) {
+                                      return TextField(
+                                        controller: _cvvControl,
+                                        onChanged: (value) {
+                                          _checkValid();
+                                        },
+                                        textAlign: TextAlign.end,
+                                        keyboardType: TextInputType.number,
+                                        maxLength: 3,
+                                        buildCounter: (context,
+                                            {required int currentLength,
+                                            required bool isFocused,
+                                            int? maxLength}) {
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                            enabledBorder: InputBorder.none,
+                                            hintStyle: TextStyle(
+                                                color: Colors.white38,
+                                                fontSize: cons.maxWidth / 5),
+                                            focusedBorder: InputBorder.none,
+                                            hintText: 'CVV'),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: cons.maxWidth / 7,
+                                        ),
+                                      );
+                                    }),
                                   ),
+                                  const SizedBox(
+                                    width: 10,
+                                  )
                                 ],
                               ),
                             ),
@@ -364,40 +402,43 @@ class _AddCardState extends State<AddCard> {
                                 children: [
                                   Expanded(
                                     flex: 3,
-                                    child: TextField(
-                                      textCapitalization:
-                                          TextCapitalization.characters,
-                                      controller: _nameControl,
-                                      onChanged: (value) {
-                                        _checkValid();
-                                      },
-                                      inputFormatters: [
-                                        TextInputFormatter.withFunction(
-                                            (oldValue, newValue) {
-                                          return newValue.copyWith(
-                                              text:
-                                                  newValue.text.toUpperCase());
-                                        })
-                                      ],
-                                      keyboardType: TextInputType.text,
-                                      maxLength: 20,
-                                      buildCounter: (context,
-                                          {required int currentLength,
-                                          required bool isFocused,
-                                          int? maxLength}) {
-                                        return null;
-                                      },
-                                      decoration: const InputDecoration(
-                                          enabledBorder: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          hintStyle:
-                                              TextStyle(color: Colors.white),
-                                          hintText: '⛥⛥⛥⛥⛥⛥⛥'),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: screenWidth * 0.045,
-                                      ),
-                                    ),
+                                    child:
+                                        LayoutBuilder(builder: (context, cons) {
+                                      return TextField(
+                                        textCapitalization:
+                                            TextCapitalization.characters,
+                                        controller: _nameControl,
+                                        onChanged: (value) {
+                                          _checkValid();
+                                        },
+                                        inputFormatters: [
+                                          TextInputFormatter.withFunction(
+                                              (oldValue, newValue) {
+                                            return newValue.copyWith(
+                                                text: newValue.text
+                                                    .toUpperCase());
+                                          })
+                                        ],
+                                        keyboardType: TextInputType.text,
+                                        maxLength: 20,
+                                        buildCounter: (context,
+                                            {required int currentLength,
+                                            required bool isFocused,
+                                            int? maxLength}) {
+                                          return null;
+                                        },
+                                        decoration: const InputDecoration(
+                                            enabledBorder: InputBorder.none,
+                                            focusedBorder: InputBorder.none,
+                                            hintStyle: TextStyle(
+                                                color: Colors.white38),
+                                            hintText: 'NAME'),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: cons.maxWidth / 12,
+                                        ),
+                                      );
+                                    }),
                                   ),
                                   Expanded(
                                     child: GestureDetector(
@@ -410,13 +451,17 @@ class _AddCardState extends State<AddCard> {
                                         },
                                         child: network.startsWith('assets')
                                             ? Image.asset(network)
-                                            : Text(
-                                                network,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize:
-                                                        screenWidth * 0.045),
-                                              )),
+                                            : LayoutBuilder(
+                                                builder: (context, cons) {
+                                                return Text(
+                                                  network,
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                      color: Colors.white38,
+                                                      fontSize:
+                                                          cons.maxWidth / 4),
+                                                );
+                                              })),
                                   )
                                 ],
                               ),
