@@ -22,12 +22,11 @@ void main() async {
     title: 'Virtual Card Holder',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
-      fontFamily: 'card',
-      useMaterial3: true,
-      // colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-      // scaffoldBackgroundColor: Colors.blue[50],
-    ),
-    home: const Home(),
+        fontFamily: 'card',
+        useMaterial3: true,
+        textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: Colors.white, selectionHandleColor: Colors.white)),
+    home: const MyApp(),
   ));
 }
 
@@ -39,14 +38,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // static const platform = MethodChannel('henry-harvin-416a3.web.app/deepLink');
-
   @override
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
+      // DeviceOrientation.landscapeLeft
     ]);
     _initDeepLink();
   }
@@ -56,7 +54,6 @@ class _MyAppState extends State<MyApp> {
   Future<void> _initDeepLink() async {
     final appLinks = AppLinks();
     uri = await appLinks.getLatestLink();
-
 
     if (uri == null) {
       _authenticate();
@@ -102,7 +99,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -140,14 +137,17 @@ class _MyAppState extends State<MyApp> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
-                          'Your data is securely stored and protected. You can access all your information without needing an internet connection.\nRest assured, your privacy is our priority, and all data remains safe and offline.'
+                          'Your data is securely stored and protected. You can access all your information without needing an internet connection. Rest assured, your privacy is our priority, and all data remains safe and offline.'
                               .toUpperCase(),
                           textAlign: TextAlign.center,
                         ),
                       ),
                     ],
                   )
-                : ViewCard(card: uri.queryParameters['c'].toString().replaceAll('%E2%80%A2', '•')),
+                : ViewCard(
+                    card: uri.queryParameters['c']
+                        .toString()
+                        .replaceAll('%E2%80%A2', '•')),
 
             ////////////////////////
             const Expanded(child: SizedBox()),

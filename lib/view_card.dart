@@ -53,7 +53,7 @@ class _ViewCardState extends State<ViewCard> {
       // Scaffold(
       //   body:
         key == cvv
-            ? CreditCard(card: card, update: () {})
+            ? CreditCard(card: card,  update: () {}, isView: true)
             : Card(
                 elevation: 4,
                 color: Colors.black,
@@ -76,6 +76,7 @@ class _ViewCardState extends State<ViewCard> {
                                   fontSize: screenWidth * 0.048),
                             ),
                             TextField(
+                              autofocus: true,
                               showCursor: false,
                               onChanged: (value) {
                                 setState(() {

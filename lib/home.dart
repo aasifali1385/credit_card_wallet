@@ -59,25 +59,31 @@ class _HomeState extends State<Home> {
                                         builder: (context) => const AddCard()));
                                 _init();
                               },
-                              child: const AspectRatio(
+                              child:  AspectRatio(
                                 aspectRatio: 3.375 / 2.125,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.add_rounded,
-                                      color: Colors.white,
-                                      size: 28,
-                                    ),
-                                    SizedBox(width: 6),
-                                    Text(
-                                      'ADD NEW CARD',
-                                      style: TextStyle(
+                                child: LayoutBuilder(
+                                  builder: (context,cons) {
+                                    return Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.add_rounded,
                                           color: Colors.white,
-                                          fontFamily: 'card',
-                                          fontSize: 20),
-                                    )
-                                  ],
+                                          size: cons.maxWidth /14,
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Text(
+                                          'ADD NEW CARD',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'card',
+                                              fontSize: cons.maxWidth / 18,
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  }
                                 ),
                               ),
                             ),

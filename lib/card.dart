@@ -7,8 +7,9 @@ import 'gradients.dart';
 class CreditCard extends StatefulWidget {
   final dynamic card;
   final Function update;
+  final bool isView;
 
-  const CreditCard({super.key, required this.card, required this.update});
+  const CreditCard({super.key, required this.card, required this.update, this.isView =false});
 
   @override
   State<CreditCard> createState() => _CreditCardState();
@@ -65,7 +66,7 @@ class _CreditCardState extends State<CreditCard>
     final cMonth = DateTime.now().month;
 
     var alert = (widget.card['paid'] && month == cMonth)
-        ? "ANNUAL FEES THIS MONTH"
+        ? "ANNUAL FEES\nTHIS MONTH"
         : (widget.card['paid'] && month - cMonth == 1)
             ? "ANNUAL FEES NEXT MONTH"
             : "";
@@ -136,12 +137,16 @@ class _CreditCardState extends State<CreditCard>
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8)),
                       alignment: Alignment.center,
-                      child: Text(
-                        card['cvv'],
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: screenWidth * 0.045,
-                        ),
+                      child: LayoutBuilder(
+                        builder: (context,cons) {
+                          return Text(
+                            card['cvv'],
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: cons.maxWidth / 5,
+                            ),
+                          );
+                        }
                       ),
                     ),
                   ),
@@ -151,7 +156,7 @@ class _CreditCardState extends State<CreditCard>
             )),
         Expanded(
             flex: 5,
-            child: Transform(
+            child: widget.isView ? const SizedBox(): Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationY(3.14159),
               child: Row(
@@ -189,7 +194,7 @@ class _CreditCardState extends State<CreditCard>
                         onPressed: _deleteCard,
                         icon: const Icon(
                           Icons.delete_rounded,
-                          color: Colors.red,
+                          color: Colors.redAccent,
                         )),
                   IconButton(
                       style: IconButton.styleFrom(
@@ -227,54 +232,64 @@ class _CreditCardState extends State<CreditCard>
 
 Widget frontContent(card, screenWidth, alert) {
   return Padding(
-    padding: EdgeInsets.fromLTRB(20, alert != "" ? 6 : 14, 20, 16),
+    padding: const EdgeInsets.fromLTRB(20, 14, 20, 16),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        if (alert != "")
-          Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            decoration: BoxDecoration(
-                color: const Color(0x4D000000),
-                borderRadius: BorderRadius.circular(6)),
-            padding: const EdgeInsets.fromLTRB(8, 2, 10, 4),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.warning_amber_rounded, color: Colors.amber),
-                const SizedBox(width: 4),
-                Text(alert, style: const TextStyle(color: Colors.amber))
-              ],
-            ),
-          ),
         Expanded(
             child: Column(
           children: [
             Expanded(
-              child: Row(
+              child: Stack(
+                alignment: Alignment.centerRight,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: card['bank'].startsWith('assets')
-                        ? Image.asset(card['bank'])
-                        : Text(
-                            card['bank'],
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: screenWidth * 0.045),
-                          ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: card['bank'].startsWith('assets')
+                            ? Image.asset(card['bank'])
+                            : LayoutBuilder(builder: (context, cons) {
+                                return Text(
+                                  card['bank'],
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: cons.maxWidth / 8),
+                                );
+                              }),
+                      ),
+                      const SizedBox(width: 40),
+                      Expanded(
+                        child: LayoutBuilder(builder: (context, cons) {
+                          return alert != ""
+                              ? const SizedBox()
+                              : Text(
+                                  card['type'],
+                                  textAlign: TextAlign.end,
+                            maxLines: 1,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: cons.maxWidth / 8),
+                                );
+                        }),
+                      ),
+                      const SizedBox(width: 6)
+                    ],
                   ),
-                  Expanded(
-                    child: Text(
-                      card['type'],
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                          color: Colors.white, fontSize: screenWidth * 0.045),
-                    ),
-                  ),
-                  const SizedBox(width: 8)
+                  ///////////// ALERT /////////////
+                  if (alert != "")
+                    Container(
+                      // margin: const EdgeInsets.only(top: 7),
+                      decoration: BoxDecoration(
+                        color: const Color(0x59FFFFFF),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      padding: const EdgeInsets.fromLTRB(8, 2, 8, 4),
+                      child: Text(alert,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: Colors.amber)),
+                    )
                 ],
               ),
             ),
@@ -299,78 +314,90 @@ Widget frontContent(card, screenWidth, alert) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Text(
-                card['number'],
-                style: TextStyle(
-                    fontSize: screenWidth * 0.047,
-                    // fontSize: screenWidth * 0.042,
-                    fontFamily: 'card',
-                    color: Colors.white),
-              ),
+              child: LayoutBuilder(builder: (context, cons) {
+                return Text(
+                  card['number'],
+                  maxLines: 1,
+                  style: TextStyle(
+                      fontSize: cons.maxWidth / 19.5,
+                      // fontSize: screenWidth * 0.042,
+                      fontFamily: 'card',
+                      color: Colors.white),
+                );
+              }),
             ),
             Expanded(
-              child: Row(
-                children: [
-                  Text(
-                    'VALID\nFROM',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      height: 1.1,
-                      fontSize: screenWidth * 0.022,
-                      fontFamily: 'card',
-                      // height: 1,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      card['from'],
+              child: LayoutBuilder(builder: (context, cons) {
+                return Row(
+                  children: [
+                    Text(
+                      'VALID\nFROM',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: screenWidth * 0.037,
+                        height: 1.1,
+                        fontSize: cons.maxWidth / 40,
+                        fontFamily: 'card',
+                        // height: 1,
                       ),
                     ),
-                  ),
-                  Text(
-                    'VALID\nTHRU',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: screenWidth * 0.022,
-                        height: 1.1),
-                  ),
-                  const SizedBox(width: 6),
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      card['thru'],
+                    const SizedBox(width: 6),
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        card['from'],
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: cons.maxWidth / 23,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      'VALID\nTHRU',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: screenWidth * 0.037,
+                          color: Colors.white,
+                          fontSize: cons.maxWidth / 40,
+                          height: 1.1),
+                    ),
+                    const SizedBox(width: 6),
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        card['thru'],
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: cons.maxWidth / 23,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                );
+              }),
             ),
             const SizedBox(height: 2),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    card['name'],
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: screenWidth * 0.045,
-                    ),
+                  Expanded(
+                    flex: 3,
+                    child: LayoutBuilder(builder: (context, cons) {
+                      return Text(
+                        card['name'],
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: cons.maxWidth / 13,
+                        ),
+                      );
+                    }),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Image.asset(card['network']),
-                  )
+                  Expanded(
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Image.asset(card['network'])),
+                  ),
                 ],
               ),
             ),
@@ -388,13 +415,11 @@ void shareCard(card) {
 
     if ((v.key == 'bank' || v.key == 'network') && value.startsWith('assets')) {
       str += value.substring(7, value.length - 4);
-
     } else if (v.key == 'number' ||
         v.key == "from" ||
         v.key == 'thru' ||
         v.key == 'cvv') {
       str += enc(value.replaceAll(' ', ''), card['cvv']);
-
     } else if (v.key != 'paid') {
       str += value;
     }
@@ -402,7 +427,8 @@ void shareCard(card) {
     str += '•';
     ////////////////////
   }
-  Share.share('https://henry-harvin-416a3.web.app?c=${str.replaceAll(' ', '+').substring(0, str.length - 2)}');
+  Share.share(
+      'https://virtualcardhold.web.app?c=${str.replaceAll(' ', '+').substring(0, str.length - 2)}');
 }
 
 String enc(String str, key) {

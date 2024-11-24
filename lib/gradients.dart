@@ -286,7 +286,7 @@ Map<dynamic, LinearGradient> getGradients() {
           Color(0xFF050703),
         ]),
 
-    "AmazonPay": const LinearGradient(
+    "Amazon Pay": const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [Color(0xFF0E0E0E), Color(0xFF333333), Color(0xFF2E2E2E)]),

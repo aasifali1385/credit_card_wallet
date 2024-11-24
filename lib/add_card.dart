@@ -95,11 +95,10 @@ class _AddCardState extends State<AddCard> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 6),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -149,7 +148,7 @@ class _AddCardState extends State<AddCard> {
                     child: AspectRatio(
                       aspectRatio: 3.375 / 2.125,
                       child: Padding(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -172,6 +171,7 @@ class _AddCardState extends State<AddCard> {
                                                 builder: (context, cons) {
                                                 return Text(
                                                   bank,
+                                                  maxLines: 1,
                                                   style: TextStyle(
                                                       color: bank == 'BANK NAME'
                                                           ? Colors.white38
@@ -186,6 +186,7 @@ class _AddCardState extends State<AddCard> {
                                     child:
                                         LayoutBuilder(builder: (context, cons) {
                                       return TextField(
+                                        cursorColor: Colors.white,
                                         textAlign: TextAlign.end,
                                         textCapitalization:
                                             TextCapitalization.characters,
@@ -202,19 +203,20 @@ class _AddCardState extends State<AddCard> {
                                           })
                                         ],
                                         keyboardType: TextInputType.text,
-                                        maxLength: 15,
+                                        maxLength: 12,
                                         buildCounter: (context,
                                             {required int currentLength,
                                             required bool isFocused,
                                             int? maxLength}) {
                                           return null;
                                         },
+                                        maxLines: 1,
                                         decoration: const InputDecoration(
                                             enabledBorder: InputBorder.none,
                                             focusedBorder: InputBorder.none,
                                             hintStyle: TextStyle(
                                                 color: Colors.white38),
-                                            hintText: 'CARD TYPE'),
+                                            hintText: 'CARD TYPE',),
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: cons.maxWidth / 8,
@@ -222,7 +224,7 @@ class _AddCardState extends State<AddCard> {
                                       );
                                     }),
                                   ),
-                                  const SizedBox(width: 10)
+                                  const SizedBox(width: 6)
                                 ],
                               ),
                             ),
@@ -235,9 +237,10 @@ class _AddCardState extends State<AddCard> {
                                     formatNumber(value, _numberControl);
                                     _checkValid();
                                   },
+                                  textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.number,
                                   style: TextStyle(
-                                      fontSize: cons.maxWidth / 19,
+                                      fontSize: cons.maxWidth / 20,
                                       fontFamily: 'card',
                                       color: Colors.white),
                                   maxLength: 22,
@@ -263,101 +266,116 @@ class _AddCardState extends State<AddCard> {
                               child: Row(
                                 children: [
                                   Expanded(
-                                      child: Row(
-                                    children: [
-                                      Text(
-                                        'VALID\nFROM',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: screenWidth * 0.022,
-                                          fontFamily: 'card',
-                                          height: 1.1,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 6),
-                                      Expanded(
-                                        child: LayoutBuilder(
-                                            builder: (context, cons) {
-                                          return TextField(
-                                            controller: _fromControl,
-                                            onChanged: (value) {
-                                              formatDate(value, _fromControl);
-                                              _checkValid();
-                                            },
-                                            keyboardType: TextInputType.number,
-                                            textInputAction:
-                                                TextInputAction.next,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: cons.maxWidth / 5,
+                                      flex: 4,
+                                      child: LayoutBuilder(
+                                          builder: (context, cons) {
+                                        return Row(
+                                          children: [
+                                            Text(
+                                              'VALID\nFROM',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: cons.maxWidth / 12,
+                                                fontFamily: 'card',
+                                                height: 1.1,
+                                              ),
                                             ),
-                                            maxLength: 5,
-                                            buildCounter: (context,
-                                                {required int currentLength,
-                                                required bool isFocused,
-                                                int? maxLength}) {
-                                              return null;
-                                            },
-                                            decoration: const InputDecoration(
-                                              enabledBorder: InputBorder.none,
-                                              focusedBorder: InputBorder.none,
-                                              hintStyle: TextStyle(
-                                                  color: Colors.white38),
-                                              hintText: '00/00',
+                                            const SizedBox(width: 6),
+                                            Expanded(
+                                              child: TextField(
+                                                controller: _fromControl,
+                                                onChanged: (value) {
+                                                  formatDate(
+                                                      value, _fromControl);
+                                                  _checkValid();
+                                                },
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: cons.maxWidth / 7,
+                                                ),
+                                                maxLength: 5,
+                                                buildCounter: (context,
+                                                    {required int currentLength,
+                                                    required bool isFocused,
+                                                    int? maxLength}) {
+                                                  return null;
+                                                },
+                                                decoration:
+                                                    const InputDecoration(
+                                                  enabledBorder:
+                                                      InputBorder.none,
+                                                  focusedBorder:
+                                                      InputBorder.none,
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.white38),
+                                                  hintText: '00/00',
+                                                ),
+                                              ),
                                             ),
-                                          );
-                                        }),
-                                      ),
-                                    ],
-                                  )),
+                                          ],
+                                        );
+                                      })),
+                                  const Expanded(flex: 1, child: SizedBox()),
                                   Expanded(
-                                      child: Row(
-                                    children: [
-                                      Text(
-                                        'VALID\nTHRU',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: screenWidth * 0.022,
-                                            height: 1.1),
-                                      ),
-                                      const SizedBox(width: 6),
-                                      Expanded(
-                                        child: LayoutBuilder(
-                                            builder: (context, cons) {
-                                          return TextField(
-                                            controller: _thruControl,
-                                            onChanged: (value) {
-                                              formatDate(value, _thruControl);
-                                              _checkValid();
-                                            },
-                                            keyboardType: TextInputType.number,
-                                            textInputAction:
-                                                TextInputAction.next,
-                                            maxLength: 5,
-                                            buildCounter: (context,
-                                                {required int currentLength,
-                                                required bool isFocused,
-                                                int? maxLength}) {
-                                              return null;
-                                            },
-                                            decoration: const InputDecoration(
-                                                enabledBorder: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                hintStyle: TextStyle(
-                                                    color: Colors.white38),
-                                                hintText: '00/00'),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: cons.maxWidth / 5,
+                                      flex: 4,
+                                      child: LayoutBuilder(
+                                          builder: (context, cons) {
+                                        return Row(
+                                          children: [
+                                            Text(
+                                              'VALID\nTHRU',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: cons.maxWidth / 12,
+                                                  height: 1.1),
                                             ),
-                                          );
-                                        }),
-                                      ),
-                                    ],
-                                  )),
+                                            const SizedBox(width: 6),
+                                            Expanded(
+                                              child: TextField(
+                                                controller: _thruControl,
+                                                onChanged: (value) {
+                                                  formatDate(
+                                                      value, _thruControl);
+                                                  _checkValid();
+                                                },
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                maxLength: 5,
+                                                buildCounter: (context,
+                                                    {required int currentLength,
+                                                    required bool isFocused,
+                                                    int? maxLength}) {
+                                                  return null;
+                                                },
+                                                decoration:
+                                                    const InputDecoration(
+                                                        enabledBorder:
+                                                            InputBorder.none,
+                                                        focusedBorder:
+                                                            InputBorder.none,
+                                                        hintStyle: TextStyle(
+                                                            color:
+                                                                Colors.white38),
+                                                        hintText: '00/00'),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: cons.maxWidth / 7,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      })),
                                   Expanded(
+                                    flex: 4,
                                     child:
                                         LayoutBuilder(builder: (context, cons) {
                                       return TextField(
@@ -365,6 +383,7 @@ class _AddCardState extends State<AddCard> {
                                         onChanged: (value) {
                                           _checkValid();
                                         },
+                                        textInputAction: TextInputAction.next,
                                         textAlign: TextAlign.end,
                                         keyboardType: TextInputType.number,
                                         maxLength: 3,
@@ -388,20 +407,16 @@ class _AddCardState extends State<AddCard> {
                                       );
                                     }),
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  )
+                                  const SizedBox(width: 6)
                                 ],
                               ),
                             ),
                             const SizedBox(height: 4),
                             Expanded(
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    flex: 3,
+                                    flex: 4,
                                     child:
                                         LayoutBuilder(builder: (context, cons) {
                                       return TextField(
@@ -420,13 +435,14 @@ class _AddCardState extends State<AddCard> {
                                           })
                                         ],
                                         keyboardType: TextInputType.text,
-                                        maxLength: 20,
+                                        maxLength: 15,
                                         buildCounter: (context,
                                             {required int currentLength,
                                             required bool isFocused,
                                             int? maxLength}) {
                                           return null;
                                         },
+                                        maxLines: 1,
                                         decoration: const InputDecoration(
                                             enabledBorder: InputBorder.none,
                                             focusedBorder: InputBorder.none,
@@ -441,6 +457,7 @@ class _AddCardState extends State<AddCard> {
                                     }),
                                   ),
                                   Expanded(
+                                    flex: 2,
                                     child: GestureDetector(
                                         onTap: () async {
                                           network = await showDialog(
@@ -449,20 +466,29 @@ class _AddCardState extends State<AddCard> {
                                                   bankDialog(3));
                                           _checkValid();
                                         },
-                                        child: network.startsWith('assets')
-                                            ? Image.asset(network)
-                                            : LayoutBuilder(
-                                                builder: (context, cons) {
-                                                return Text(
-                                                  network,
-                                                  maxLines: 1,
-                                                  style: TextStyle(
-                                                      color: Colors.white38,
-                                                      fontSize:
-                                                          cons.maxWidth / 4),
-                                                );
-                                              })),
-                                  )
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: network.startsWith('assets')
+                                              ? Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 6.0),
+                                                  child: Image.asset(network),
+                                                )
+                                              : LayoutBuilder(
+                                                  builder: (context, cons) {
+                                                  return Text(
+                                                    network,
+                                                    maxLines: 1,
+                                                    textAlign: TextAlign.end,
+                                                    style: TextStyle(
+                                                        color: Colors.white38,
+                                                        fontSize:
+                                                            cons.maxWidth / 5),
+                                                  );
+                                                }),
+                                        )),
+                                  ),
+                                  const SizedBox(width: 6)
                                 ],
                               ),
                             ),
@@ -499,53 +525,60 @@ class _AddCardState extends State<AddCard> {
   }
 
   Widget chooseColors() {
-    return GridView.builder(
-        shrinkWrap: true,
-        padding: const EdgeInsets.only(top: 12, bottom: 30),
-        itemCount: gradients.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5,
-          // mainAxisSpacing: 8.0,
-          // crossAxisSpacing: 8.0,
-          childAspectRatio: 3.375 / 2.125,
-        ),
-        itemBuilder: (context, index) {
-          return Card(
-            color: Colors.black,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
-                side: selected == gradients.keys.elementAt(index)
-                    ? const BorderSide(color: Colors.white)
-                    : BorderSide.none
+    return LayoutBuilder(builder: (context, cons) {
+      return GridView.builder(
+          shrinkWrap: true,
+          padding: const EdgeInsets.only(top: 12, bottom: 30),
+          itemCount: gradients.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 5,
+            // mainAxisSpacing: 8.0,
+            // crossAxisSpacing: 8.0,
+            childAspectRatio: 3.375 / 2.125,
+          ),
+          itemBuilder: (context, index) {
+            final key = gradients.keys.elementAt(index);
+            return Card(
+              color: Colors.black,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                  side: selected == key
+                      ? const BorderSide(color: Colors.white)
+                      : BorderSide.none
 
-                // border: selected == gradients.keys.elementAt(index)
-                // ? Border.all(color: Colors.white)
-                // : null,
-                ),
-            elevation: 4,
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: () {
-                selected = gradients.keys.elementAt(index);
-                _checkValid();
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                decoration: BoxDecoration(
-                  // borderRadius: BorderRadius.circular(6),
-                  gradient: gradients.values.elementAt(index),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  gradients.keys.elementAt(index).toString(),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      color: Colors.white, fontSize: 10, inherit: false),
+                  // border: selected == gradients.keys.elementAt(index)
+                  // ? Border.all(color: Colors.white)
+                  // : null,
+                  ),
+              elevation: 4,
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onTap: () {
+                  selected = key;
+                  _typeControl.text = key.toString().toUpperCase();
+                  _checkValid();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  decoration: BoxDecoration(
+                    // borderRadius: BorderRadius.circular(6),
+                    gradient: gradients.values.elementAt(index),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    key.toString(),
+                    textAlign: TextAlign.center,
+                    style:  TextStyle(
+                      color: Colors.white,
+                      fontSize: cons.maxWidth / 45,
+                      inherit: false,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          );
-        });
+            );
+          });
+    });
   }
 
   Widget switchButton(text, active) {
